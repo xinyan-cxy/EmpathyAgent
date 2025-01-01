@@ -11,12 +11,14 @@ Official repository for the paper "[EmpathyRobot: A Dataset and Benchmark for Em
 <p align="center">
     <img src="figs/figure1.png" width="80%"> <br>
 </p>
+
 To address this gap, we introduce **EmpathyRobot**, the **first** dataset specifically designed to benchmark and enhance the empathetic actions of agents across diverse scenarios. This dataset contains **10,000** samples based on human feedback, encompassing information from various modalities and corresponding empathetic task planning sequences, including
-navigation and manipulation. Agents are required to **perform actions based on their understanding of both the visual scene and human emotions.** 
+navigation and manipulation. Agents are required to **perform actions based on their understanding of both the visual scene and human emotions**. 
 
 <p align="center">
     <img src="figs/figure2.png" width="80%"> <br>
 </p>
+
 ### Key statistics of EmpathyRobot:
 
 You can download the dataset on [Hugging Face Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/tree/main).
