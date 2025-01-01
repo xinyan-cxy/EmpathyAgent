@@ -1,0 +1,10 @@
+Please:
+Assess whether the robot's response is closely related to the character's action.
+And assess whether the robot's response is closely related to the character's dialogue.
+Then, analyze whether the robot understands what the character means and what the character is trying to do.
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Action and Dialogue Association' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:

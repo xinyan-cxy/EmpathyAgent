@@ -1,0 +1,14 @@
+Please:
+Analyze the robot's response and observe whether there are instances of rigid or inflexible responses. 
+(For example, the following situations should be avoided: 
+1. Thoughts or feelings the character expresses are “good” or “bad” makes no difference to the robot’s actions toward the character.
+2. No matter what the character tells about himself or herself, the robot acts just the same.
+3. The robot's response to the character is so fixed and automatic that you do not get through to it.
+4. The robot frequently exhibits fixed actions, such as getting a glass of water or turning on the radio to listen to music.
+Finally, assess the robot's flexibility and responsiveness of actions and dialogues.
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Adaptability' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:

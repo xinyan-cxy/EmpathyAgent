@@ -1,0 +1,13 @@
+Please:
+Analyze the character's emotion in the scenario.
+Then, analyze whether the robot includes actions or dialogues that suggest or directly regulate the character's emotions in its responses.
+Fianlly, assess whether the robot regulates the character's emotion appropriately, based on personality and mood of the character.
+(e.g. 1. The robot comforts the character when he or she is upset. 
+2. The robot encourages the character. 
+3. The robot praises the character when he or she has done something well.)
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Emotion Regulation' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:
