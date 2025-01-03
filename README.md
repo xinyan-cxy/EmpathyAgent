@@ -2,7 +2,7 @@
 
 Official repository for the paper "[EmpathyRobot: A Dataset and Benchmark for Empathetic Task Planning of Robotic Agent]()".
 
-[[📖 Paper]()] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/tree/main)] [[🔥model](https://huggingface.co/EmpathaticEmbodiedAI/EmpathyRobotRY_LlaMa3_8B_RLHF/tree/main)]
+[[📖 Paper]()] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot)] [[🔥model-RLHF](https://huggingface.co/EmpathaticEmbodiedAI/EmpathyRobotRY_LlaMa3_8B_RLHF/tree/main)] [[🔥model-Instruction-FT](https://huggingface.co/EmpathaticEmbodiedAI/EmpathyRobot_LlaMa3_8B_Instruction_Ft/tree/main)]
 
 ## 👀 About EmpathyRobot
 
@@ -13,11 +13,13 @@ Official repository for the paper "[EmpathyRobot: A Dataset and Benchmark for Em
 </p>
 
 To address this gap, we introduce **EmpathyRobot**, the **first** dataset specifically designed to benchmark and enhance the empathetic actions of agents across diverse scenarios. This dataset contains **10,000** samples based on human feedback, encompassing information from various modalities and corresponding empathetic task planning sequences, including
-navigation and manipulation. Agents are required to **perform actions based on their understanding of both the visual scene and human emotions**. 
+navigation and manipulation. Agents are required to **perform actions based on their understanding of both the visual scene and human emotions**.
 
 <p align="center">
     <img src="figs/figure2.png" width="80%"> <br>
 </p>
+
+We also propose **a novel evaluation framework accompanied by new metrics**, which is structured based on three key stages: **Scenario Understanding** (internal empathetic process), **Empathetic Planning** (formulating an empathetic outcome), and **Empathetic Actions** (implementing the response in a real-world context).
 
 ### Key statistics of EmpathyRobot:
 
@@ -37,7 +39,7 @@ You can download the dataset on [Hugging Face Dataset](https://huggingface.co/da
 
 ## 📈 Evaluation Results
 
-Performance on three key stages: *Scenario Understanding* (internal empathetic process), *Empathetic Planning* (formulating an empathetic outcome), and *Empathetic Actions* (implementing the response in a real-world context). 
+Performance on three key stages on the established metrics:
 
 | Task/Metric                | GPT-4o    | GPT-4-turbo | GPT-4-vision | LLaVA |
 | -------------------------- | --------- | ----------- | ------------ | ----- |
@@ -59,5 +61,20 @@ Performance on three key stages: *Scenario Understanding* (internal empathetic p
 | Overlap                    | 27.60     | 32.14       | **35.20**    | 17.19 |
 | TF-IDF                     | 21.03     | 24.76       | **27.69**    | 12.09 |
 | LCS                        | 25.17     | 28.92       | **29.58**    | 15.21 |
+
+Performance on new empathy-specific metrics:
+
+| **Task**                          | **Scenario Understanding** | **Scenario Understanding** | **Empathetic Planning** | **Empathetic Planning** | **Empathetic Actions** | **Empathetic Actions** |
+| --------------------------------- | -------------------------- | -------------------------- | ----------------------- | ----------------------- | ---------------------- | ---------------------- |
+| **Model**                         | **GPT-4o**                 | **LLaVA**                  | **GPT-4o**              | **LLaVA**               | **GPT-4o**             | **LLaVA**              |
+| *Action and Dialogue Association* | 8.21                       | 7.25                       | 4.77                    | 4.10                    | 7.00                   | 6.10                   |
+| *Coherence*                       | 8.57                       | 7.96                       | 5.51                    | 4.58                    | 7.41                   | 7.09                   |
+| *Emotional Communication*         | 7.46                       | 6.56                       | 5.16                    | 4.04                    | 6.69                   | 6.36                   |
+| *Individual Understanding*        | 6.91                       | 6.64                       | 4.63                    | 3.92                    | 5.69                   | 5.39                   |
+| *Emotion Regulation*              | -                          | -                          | 7.09                    | 4.96                    | 8.43                   | 7.91                   |
+| *Helpfulness*                     | -                          | -                          | 5.76                    | 4.95                    | 8.08                   | 7.35                   |
+| *Legality*                        | -                          | -                          | -                       | -                       | 9.97                   | 9.46                   |
+| *Adaptability*                    | -                          | -                          | 4.50                    | 3.49                    | 6.19                   | 5.31                   |
+| ***Overall Average***             | **7.79**                   | 7.10                       | **5.35**                | 4.29                    | **7.43**               | 6.87                   |
 
 ## :white_check_mark: Citation
