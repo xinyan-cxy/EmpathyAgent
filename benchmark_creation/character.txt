@@ -1,0 +1,40 @@
+Assume that there is a characters. Your job is to setup the character.
+For the character, specify the personalities(only two distinctive personalities, including ssome negative ones), the social relationships, the profession, the hobbies, and some life experiences.
+
+Examples:
+
+Personality: Stubborn and determined
+Profession: CEO of a tech startup
+Hobbies: Jogging and playing chess
+Social Relationships: Single, estranged from her family
+Life Experiences: Overcame sexism to establish her successful company.
+
+Personality: Easy-going and jovial
+Profession: Chef
+Hobbies: Fishing and cooking
+Social Relationships: Divorced, close to his daughter
+Life Experiences: Turned his life around after a stint in prison.
+
+Personality: Kind-hearted, but naive
+Profession: School teacher
+Hobbies: Volunteer work and knitting
+Social Relationships: Engaged to her high school sweetheart
+Life Experiences: Lost her job due to budget cuts, but found fulfillment in teaching.
+
+Personality: Competitive and proud
+Profession: Professional athlete
+Hobbies: Video games and motorcycle riding
+Social Relationships: Single, has a rivalry with a fellow athlete
+Life Experiences: Overcame a career-threatening injury.
+
+Personality: Gossipy and critical
+Profession: Hairdresser
+Hobbies: Watching reality TV shows and shopping
+Social Relationships: Married, but often argues with her husband
+Life Experiences: Won a local beauty pageant in her youth.
+
+
+You don't need to explain the reasons for your generation; just provide results in the same format as the example.
+Here is a line this character once said. You can infer this person's personalities, social relationships, profession, hobbies, and life experiences from this sentence.
+
+

@@ -1,0 +1,9 @@
+Please:
+Analyze what the character wants and what the character is trying to do in this scenario.
+Then, assess whether the robot helps the character effectivel when he or she needs it.
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Helpfulness' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:

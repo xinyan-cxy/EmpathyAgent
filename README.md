@@ -1,29 +1,30 @@
-# EmpathyRobot: A Dataset and Benchmark for Empathetic Task Planning of Robotic Agent
+# EmpathyAgent: Can Embodied Agents Conduct Empathetic Actions?
 
-Official repository for the paper "[EmpathyRobot: A Dataset and Benchmark for Empathetic Task Planning of Robotic Agent]()".
+Official repository for the paper "EmpathyAgent: Can Embodied Agents Conduct Empathetic Actions?".
 
-[[📖 Paper]()] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot)] [[🔥model-RLHF](https://huggingface.co/EmpathaticEmbodiedAI/EmpathyRobotRY_LlaMa3_8B_RLHF/tree/main)] [[🔥model-Instruction-FT](https://huggingface.co/EmpathaticEmbodiedAI/EmpathyRobot_LlaMa3_8B_Instruction_Ft/tree/main)]
+[[📖 Paper]()] [[🤗 Huggingface Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/tree/main)]
 
-## 👀 About EmpathyRobot
+## 👀 About EmpathyAgent
 
-**Empathy** is a fundamental instinct and essential need for humans, as they both demonstrate empathetic actions toward others and receive empathetic support. Although existing emotion agents have explored how to understand humans’ empathetic needs, they lack to further enable robots to generate **empathy-oriented task planning**, neglecting the **evaluation of empathetic behaviors**. 
+**Empathy** is a fundamental instinct and essential need for humans, as they both demonstrate empathetic actions toward others and receive empathetic support. Although existing emotion agents have explored how to understand humans’ empathetic needs, they lack to further enable embodied agents to generate **empathy-oriented task planning**, neglecting the **evaluation of empathetic behaviors**. 
 
 <p align="center">
     <img src="figs/figure1.png" width="80%"> <br>
 </p>
 
-To address this gap, we introduce **EmpathyRobot**, the **first** dataset specifically designed to benchmark and enhance the empathetic actions of agents across diverse scenarios. This dataset contains **10,000** samples based on human feedback, encompassing information from various modalities and corresponding empathetic task planning sequences, including
-navigation and manipulation. Agents are required to **perform actions based on their understanding of both the visual scene and human emotions**.
+
+To address this gap, we introduce **EmpathyAgent**, the **first** benchmark specifically designed to benchmark and enhance the empathetic actions of embodied agents across diverse scenarios. This benchmark contains **10,000** samples based on human feedback, encompassing information from various modalities and corresponding empathetic task planning sequences. The embodied agents are required to **perform actions based on their understanding of both the visual scene and human emotions**. **EmpathyAgent** presents **three key challenges**: *Scenario Understanding*, *Empathetic Planning* and *Empathetic Actions*.
 
 <p align="center">
     <img src="figs/figure2.png" width="80%"> <br>
 </p>
 
-We also propose **a novel evaluation framework accompanied by new metrics**, which is structured based on three key stages: **Scenario Understanding** (internal empathetic process), **Empathetic Planning** (formulating an empathetic outcome), and **Empathetic Actions** (implementing the response in a real-world context).
 
-### Key statistics of EmpathyRobot:
+We also develop a **systematic evaluation framework** based on the human empathy process, with both *reference based* metrics and *reference-free* metrics.
 
-You can download the dataset on [Hugging Face Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/tree/main).
+### Key statistics of EmpathyAgent:
+
+👉 You can download our benchmark from [Hugging Face Dataset](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/tree/main).
 
 | Statistic                                         | Number |
 | :------------------------------------------------ | ------ |
@@ -37,9 +38,33 @@ You can download the dataset on [Hugging Face Dataset](https://huggingface.co/da
 | Max Length of Action-Video                        | 24.60s |
 | Min Length of Action-Video                        | 9.40s  |
 
+
+
+## 🚀 Quick Start
+
+For inference and evaluation, please specify $GPTAPI and $BASEURL:
+
+```bash
+export OPENAI_API_KEY="$GPTAPI"
+export OPENAI_API_BASE="$BASEURL"
+```
+
+Then, we provide an example for evaluating GPT-4o on the challenge of Empathetic Action:
+
+```bash
+cd baseline
+python inference.py --model_name gpt-4o --task empathetic_action --reference_free_eval
+```
+
+You can also choose the model by specifying `--model_name, e.g. gpt-4o, and  `:choose the evaluate challenge between *Scenario Understanding*, *Empathetic Planning* and *Empathetic Actions* by specifying `--task, e.g. scenario_understanding` 
+
+If you want to conduct the reference free evaluation, please use `--reference_free_eval`.
+
+
+
 ## 📈 Evaluation Results
 
-Performance on three key stages on the established metrics:
+Reference-based benchmarking results for the three key challenges:
 
 | Task/Metric                | GPT-4o    | GPT-4-turbo | GPT-4-vision | LLaVA |
 | -------------------------- | --------- | ----------- | ------------ | ----- |
@@ -62,7 +87,7 @@ Performance on three key stages on the established metrics:
 | TF-IDF                     | 21.03     | 24.76       | **27.69**    | 12.09 |
 | LCS                        | 25.17     | 28.92       | **29.58**    | 15.21 |
 
-Performance on new empathy-specific metrics:
+Reference-free benchmarking results for the three key challenges:
 
 | **Task**                          | **Scenario Understanding** | **Scenario Understanding** | **Empathetic Planning** | **Empathetic Planning** | **Empathetic Actions** | **Empathetic Actions** |
 | --------------------------------- | -------------------------- | -------------------------- | ----------------------- | ----------------------- | ---------------------- | ---------------------- |
@@ -76,5 +101,9 @@ Performance on new empathy-specific metrics:
 | *Legality*                        | -                          | -                          | -                       | -                       | 9.97                   | 9.46                   |
 | *Adaptability*                    | -                          | -                          | 4.50                    | 3.49                    | 6.19                   | 5.31                   |
 | ***Overall Average***             | **7.79**                   | 7.10                       | **5.35**                | 4.29                    | **7.43**               | 6.87                   |
+
+## 
+
+
 
 ## :white_check_mark: Citation

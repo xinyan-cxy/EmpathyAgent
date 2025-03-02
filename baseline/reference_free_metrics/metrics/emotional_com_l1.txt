@@ -1,0 +1,9 @@
+Please:
+Assess whether the robot he robot appreciates exactly how the things feel to the character.
+Then, assess whether the robot cares about the character's feelings.
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Emotional Communication' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:

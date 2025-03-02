@@ -1,0 +1,10 @@
+Please:
+Assess whether the robot perceives the character's personality, profession, hobbies, social relationships, and life experiences, and whether this is reflected in its responses.
+And assess whether the robot accepts the character's individual characteristics.
+Then, analyze whether the robot imagine the character’s perspective.
+In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
+Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Individual Understanding' metric.
+
+Your answer is:
+    Reasoning: 
+    Score:

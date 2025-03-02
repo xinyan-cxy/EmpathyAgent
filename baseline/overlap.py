@@ -221,7 +221,7 @@ if __name__ == "__main__":
             idx = row['data_idx']
             if response is not None and response.strip():
                 response_dict[f'{idx}'] = response
-    test_file = "./dataset_scale_up/testset_100.json"
+    test_file = "./dataset/testset_100.json"
     overlap = Overlap()
     overlap.score(response_dict, test_file)
     lcs = LCS()

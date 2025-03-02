@@ -6,14 +6,14 @@ from openai import OpenAI
 class GPT:
     def __init__(self, model_name):    
         self.client = OpenAI(
-            base_url="", 
-            api_key="",
+            base_url=os.environ.get("OPENAI_API_BASE", ""), 
+            api_key=os.environ.get("OPENAI_API_KEY", ""),
             http_client=httpx.Client(
-                base_url="",
+                base_url=os.environ.get("OPENAI_API_BASE", ""), 
                 follow_redirects=True,
             ),
         )
-        if model_name in ["gpt-4o", "gpt-4-turbo-2024-04-09", "gpt-4-turbo", "gpt-4-vision-preview"]:
+        if model_name in ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]:
             self.model_name = model_name
         else: 
             print("Wrong model name!")
@@ -65,14 +65,14 @@ class GPT:
 class GPT_text:
     def __init__(self, model_name):    
         self.client = OpenAI(
-            base_url="", 
-            api_key="",
+            base_url=os.environ.get("OPENAI_API_BASE", ""), 
+            api_key=os.environ.get("OPENAI_API_KEY", ""),
             http_client=httpx.Client(
-                base_url="",
+                base_url=os.environ.get("OPENAI_API_BASE", ""), 
                 follow_redirects=True,
             ),
         )
-        if model_name in ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview", "gpt-3.5-turbo-0125"]:
+        if model_name in ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview", "gpt-3.5-turbo"]:
             self.model_name = model_name
         else: 
             print("Wrong model name!")
@@ -92,7 +92,7 @@ class GPT_text:
 
 if __name__ == "__main__":
     from inference_text import UNIFY_PROMPT, INPUT_PROMPT
-    gpt = GPT_text(model_name = "gpt-3.5-turbo-0125")
+    gpt = GPT_text(model_name = "gpt-3.5-turbo")
     text_prompt = UNIFY_PROMPT + INPUT_PROMPT.format(character_info="Personality: Ambitious and unsure\n Profession: Aspiring Medical Office Manager\n Hobbies: Reading and cycling\n Social Relationships: In college, seeking career advice\n Life Experiences: Currently exploring different career paths in college, excited about the future but not fully decided.\n", 
     dialogue ="What am I really passionate about? I need to figure this out soon.", action="\"[Walktowards] <chair> (1)\", \"[Sit] <chair> (1)\"")
     print(gpt.generate(text_prompt))

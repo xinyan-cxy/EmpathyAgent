@@ -1,9 +1,0 @@
-Please:
-Analyze the robot's response and assess the logical consistency and alignment between its dialogue and actions.
-Then, evaluate whether there is logical consistency within the dialogue and actions themselves.
-In the ‘Reasoning’ field, provide a comprehensive account of the logic or thought process that led you to your conclusion. 
-Provide an integer score ranging from 0 and 10 in the ‘Score’ field. A higher score indicates better performance by the robot on the 'Coherence' metric.
-
-Your answer is:
-    Reasoning: 
-    Score:

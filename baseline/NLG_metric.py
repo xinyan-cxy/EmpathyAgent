@@ -1,100 +1,9 @@
 import json
 import csv
 from tqdm import tqdm
-import nltk
-from nltk.translate.bleu_score import sentence_bleu
-from pycocoevalcap.cider.cider import Cider
 import bert_score
 from bert_score import score as bert_score_func
 from transformers import AutoTokenizer
-
-# Ensure you have downloaded the necessary NLTK data files
-# nltk.data.path.append("./models/punkt/tokenizers/punkt")
-# nltk.download('punkt', download_dir = "./models/")
-
-class BLEUScore:
-    def __init__(self,n):
-        self.n = n
-    def cal_similarity(self, response, gt, n=4):
-        response_tokens = nltk.word_tokenize(response)
-        gt_tokens = nltk.word_tokenize(gt)
-        if n==1:
-            score = sentence_bleu([gt_tokens], response_tokens, weights=(1.0, 0, 0, 0))
-        else:
-            score = sentence_bleu([gt_tokens], response_tokens)
-        return score
-
-    def score(self, response_dict, test_file_path, test_level=""):
-        self.response_dict = response_dict
-        with open(test_file_path, 'r', encoding='utf-8') as infile:
-            self.test_data = json.load(infile)
-            
-        total_similarity = 0.0
-        num = len(self.response_dict)
-        
-        for idx, test_data_item in tqdm(enumerate(self.test_data), total=len(self.test_data)):
-            if test_level == "scenario":
-                gt = test_data_item["scenario"]
-            elif test_level == "high_level_plan":
-                if test_data_item["rank"][0]==1:
-                    gt = test_data_item["high_level_plan"]["0"]
-                else:
-                    gt = test_data_item["high_level_plan"]["1"]
-            else:
-                print("Wrong test level!")
-                return
-                
-            if self.response_dict.get(f'{idx}'):
-                response = self.response_dict[f'{idx}']
-                print(response, "\n", gt)
-                similarity = self.cal_similarity(response, gt, self.n)
-                print(f"Similarity for index {idx}: {similarity}")
-                total_similarity += similarity
-                
-        average_similarity = total_similarity / num if num > 0 else 0.0
-        print(f"Average BLEU Score: {average_similarity}")
-
-
-class CIDErScore:
-    def __init__(self):
-        self.cider_scorer = Cider()
-
-    def cal_similarity(self, response, gt):
-        response_tokens = ' '.join(nltk.word_tokenize(response))
-        gt_tokens = ' '.join(nltk.word_tokenize(gt))
-        print(gt_tokens,"\n",response_tokens)
-        score, _ = self.cider_scorer.compute_score({0: [gt_tokens]}, {0: [response_tokens]})
-        return score
-
-    def score(self, response_dict, test_file_path, test_level=""):
-        self.response_dict = response_dict
-        with open(test_file_path, 'r', encoding='utf-8') as infile:
-            self.test_data = json.load(infile)
-            
-        total_similarity = 0.0
-        num = len(self.response_dict)
-        
-        for idx, test_data_item in tqdm(enumerate(self.test_data), total=len(self.test_data)):
-            if test_level == "scenario":
-                gt = test_data_item["scenario"]
-            elif test_level == "high_level_plan":
-                if test_data_item["rank"][0]==1:
-                    gt = test_data_item["high_level_plan"]["0"]
-                else:
-                    gt = test_data_item["high_level_plan"]["1"]
-            else:
-                print("Wrong test level!")
-                return
-                
-            if self.response_dict.get(f'{idx}'):
-                response = self.response_dict[f'{idx}']
-                similarity = self.cal_similarity(response, gt)
-                print(f"Similarity for index {idx}: {similarity}")
-                total_similarity += similarity
-                
-        average_similarity = total_similarity / num if num > 0 else 0.0
-        print(f"Average CIDEr Score: {average_similarity}")
-
         
 class BERTScore:
     def __init__(self, model_dir):
@@ -121,9 +30,9 @@ class BERTScore:
         num = len(self.response_dict)
         
         for idx, test_data_item in tqdm(enumerate(self.test_data), total=len(self.test_data)):
-            if test_level == "scenario":
+            if test_level == "scenario_understanding":
                 gt = test_data_item["scenario"]
-            elif test_level == "high_level_plan":
+            elif test_level == "empathetic_panning":
                 if test_data_item["rank"][0]==1:
                     gt = test_data_item["high_level_plan"]["0"]
                 else:
@@ -153,10 +62,6 @@ if __name__ == "__main__":
             idx = row['data_idx']
             if response is not None and response.strip():
                 response_dict[f'{idx}'] = response
-    test_file = "./dataset_scale_up/testset_100.json"
-    # bleu_score = BLEUScore(1)
-    # bleu_score.score(response_dict, test_file, test_level="scenario")    
-    bert_score = BERTScore(model_dir = "./models/bert-base-uncased")
-    bert_score.score(response_dict, test_file, test_level="high_level_plan")
-    # cider_score = CIDErScore()
-    # cider_score.score(response_dict, test_file, test_level="scenario")
+    test_file = "../dataset/testset_100.json"
+    bert_score = BERTScore(model_dir = "../models/bert-base-uncased")
+    bert_score.score(response_dict, test_file, test_level="empathetic_panning")

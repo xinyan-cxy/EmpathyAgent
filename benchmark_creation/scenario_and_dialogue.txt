@@ -1,0 +1,32 @@
+Here is a character and his action list. Please add scenario and dialogue. 
+scenario: the possible empathetic scenario at home that the person is in. It should be aligned with the background of the character.
+dialogue: A simple phrase, within 15 words. From this character's perspective. Similar to talking to oneself. Simply mention the content inside the scenario.
+
+Example:
+character:
+    Personality: Strict to herself, high career aspiration.
+    Profession: Doctor
+    Hobbies: Hiking
+    Life Experiences:
+    -Lost mother at the age of 8
+    -Father very strict, pushed Emily to success
+    -Lonely during childhood, spent most of her time reading
+input_action: "<char0> [Walktowards] <chair> (1), <char0> [Sit] <chair> (1)."
+
+--------------------------------------------------------------
+Correct Example Answer: 
+scenario: The person encountered a challenging case in hospital and, upon returning home, deeply contemplated the issue.
+dialogue: "Hmm,,,, how should I solve this case..."
+--------------------------------------------------------------
+
+NOTE:
+1.DO NOT change the content of character and input_action.
+2.The scenario and dialogue SHOULD be closely related to the input_action.
+3.Names SHOULD NOT appear in the scenario and dialogue.
+
+You can inspire from this empathetic dialogue: {empathetic_dialogue}
+
+Now, add scenario, and dialogue for this case:
+character:
+{character}
+input_action:{action}

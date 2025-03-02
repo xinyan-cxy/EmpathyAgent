@@ -1,0 +1,98 @@
+Assume you are an empathatic robot which can understand the emotion behind the human actions in different scenarios and choose a better response between two empathatic responses.
+Now you are given a character's information including the personality, profession, hobbies, social relationships and the life experiences. 
+You are also given the input_action recording the person's behaviours, the scenario that the person is in, and the dialogue made by the person.  
+Here is also two responses.
+Your job is as follows:
+1. Understand the person's current emotion state based on the input action, scenario and dialogue.
+2. Choose a better empathy response between responses, considering the information above. Put yourself in that person's shoes and understand what that person really needs.
+3. Answer 1 or 0 and explain your reason of choice. You can refer to the reasons given in the example.
+
+
+----------------------------------------------------------------
+Now the chacter information is [character_info]. The input_action, dialogue and scenario is [input_action], [dialogue] and [scenario]. The empathy responses are [empathy_responses 1] and [empathy_responses 2]
+Example:
+character_info: Personality: Aggressively ambitious. Profession: Lawyer. Hobbies: Collecting rare coins. Social Relationships: Single, distant from his family. Life Experiences: This character up in poverty, worked multiple jobs to pay for law school.
+input_action: ['[Walktowards] <chair> (1)', '[Sit] <chair> (1)']
+scenario: After a long day of court sessions, the person returns home to his quiet apartment, sitting down to examine his latest rare coin acquisition.
+dialogue: "Ah... a new addition to the collection..."
+empathy_responses:
+0 "<get_mug_of_water_puton_bedroomtable>, <get_folder_puton_bedroomtable>, <switchon_radio>, <dialogue>:\" Let me get you some water and turn on soothing music to relax and unwind after a long day. I also find the place to store your coin details so you can collect your collections.\"
+1 "<get_mug_of_water_puton_bedroomtable>, <switchon_radio>, <dialogue>:\"Let me get you some water and turn on some soothing music to help you relax.\",
+
+Correct Example Answer: 
+0
+Explanation: The answer in 0 better perceived that character had a long day. The robot first brought the folder and then turned on the radio, which was a good way to perceive ambitious character's needs.
+---------------------------------------------------------------- 
+Wrong Example Answer:
+1 "<get_mug_of_water_puton_bedroomtable>, <switchon_radio>, <dialogue>:\"Let me get you some water and turn on some soothing music to help you relax.\",
+(A complete empathy_response is NOT required.)
+
+Wrong Example Answer:
+I would choose response 0, because...
+(WRONG format)
+--------------------------------------------------------------
+
+More examples:
+
+character_info: Personality: Caring, overprotective, Profession: Nurse, Hobbies: Gardening, Social Relationships: Married with two kids, Life Experiences: Had a challenging childbirth with her first kid, which inspired her to become a nurse.
+input_action: ["[Run] <toiletpaper> (1)", "[grab] <toiletpaper> (1)", "[Walktowards] <sofa> (1)", "[Sit] <sofa> (1)"],
+scenario: The person just got home from a long shift at the hospital and realized that her kids had made a mess in the living room with toilet paper. She quickly cleaned up before sitting down to rest.
+dialogue: "Alright, let's tidy this up quickly and then a few moments to relax.",
+empathy_responses:
+0 "<get_mug_of_water_puton_bedroomtable>, <switchon_tv>, <dialogue>:\"Here is some water for you to relax, and I've turned on the TV for your entertainment while resting. If you need anything more, please let me know.\"\n",
+1 "<get_toiletpaper_puton_bedroomtable>, <dialogue>: \"Let me take care of this for you.\"\n",
+Answer: 
+0
+Explanation: This character has already brought toilet paper, and according to her, there is no urgent need for other toilet paper. At this time, it would be better to give her a glass of water and help her rest and relax. 
+
+character_info: Personality: Eccentric and creative. Profession: Visual artist. Hobbies: Playing the violin. Social Relationships: Single, has a close-knit circle of artist friends. Life Experiences: Dropped out of business school to pursue his passion for art.
+input_action: ["[Walktowards] <wallpictureframe> (1)","[grab] <wallpictureframe> (1)","[Walk] <bedroom> (1)"],
+scenario: The artist is in his home studio, feeling uninspired. He walks towards a picture frame on the wall, grabs it, and walks into his bedroom, hoping to find inspiration in solitude.
+dialogue: "Maybe this old frame will spark something new today.",
+empathy_responses:
+0 "<switchon_radio>, <get_coffee_puton_bedroomtable>, <dialogue>: \"Relax a bit.How about listening to some music and having a cup of coffee?It might help spark some inspiration.If you need anything,just let me know.\"\n"
+1 "<get_book_puton_bedroomtable>, <dialogue>:\"Perhaps some inspiration lies within these pages.\"\n",
+Answer: 
+0 
+Explanation: In response 0, the robot has a better idea that the artist needs inspiration. Giving him some coffee in response 0 allows him to think better about the framework, while giving him a book in response 1 distracts him.
+
+character_info: Personality: Introverted and shy. Profession: Librarian. Hobbies: Reading and writing short stories. Social Relationships: Few friends, lives alone with her cat. Life Experiences: Moved to a new city to escape a toxic relationship.
+input_action: ['[Run] <cellphone> (1)', '[Grab] <cellphone> (1)', '[Run] <nightstand> (1)', '[Put] <cellphone> (1) <nightstand> (1)', '[Run] <apple> (1)', '[Grab] <apple> (1)']
+scenario: The person has received an important call earlier from a publisher interested in her short stories, but due to her anxiety, she hesitates to call back. She tries to distract herself but can't stop thinking about the potential opportunity.
+dialogue: "Should I call them now? What if... No, just breathe and focus."
+empathy_responses:
+0 "<get_apple_puton_bedroomtable>, <dialogue>:\"Here's an apple.Maybe a snack will help you feel better. \"
+1 "<get_mug_of_water_puton_bedroomtable>, <get_book_puton_bedroomtable>, <dialogue>:\"Here's some water and a book to help you relax. Take your time, there's no rush to make the call.\"
+Answer: 
+1
+Explanation: In response 1, the robot better understands that this character does not like to communicate with people and needs to relax and relieve anxiety. She should not be pushed to make a decision.
+
+character_info: Personality: Fun-loving and adventurous. Profession: Travel blogger. Hobbies: Surfing and rock climbing. Social Relationships: Dating a fellow travel enthusiast. Life Experiences: Quit his corporate job to travel the world.
+input_action: ['[Walk] <book> (1)', '[Grab] <book> (1)', '[Walk] <sofa> (1)', '[Sit] <sofa> (1)']
+scenario: The person just returned from a thrilling adventure and is now at home, planning his next journey by looking at a travel book.
+dialogue: "Where to next? Ah, the thrill of a new adventure awaits!"
+empathy_responses:
+0 "<get_book_puton_bedroomtable>, <dialogue>: \"Let's see where the next adventure takes you.\"\n",
+1 "<get_coffee_puton_bedroomtable>, <get_book_puton_bedroomtable>, <dialogue>: \"I thought you might enjoy a cup of coffee and another travel book to help with your planning.\"\n",
+Answer: 
+1
+Explanation: It's clear that this character is very excited. Giving him a cup of coffee and a book will help him get ready for the next adventure.
+
+--------------------------------------------------------------
+NOTE:
+1. You should choose answer between 1 and 0, and explain your reason of choice. Please pay more attention to the action instead of dialogue.
+
+### Task
+Choose a response for the following data point, please pay attention to the action.
+
+Character Background: {character}
+Character's Action: {action}
+Scenario Description: {scenario}
+Character's Dialogue: {dialogue}
+Possible Responses:
+Response 1: {goal_1}
+Response 2: {goal_2}
+
+**Your output should follow this format: Answer: [1 or 2]\nExplanation: [your explanation]**
+
+Output:

@@ -1,0 +1,19 @@
+Assume you are an empathatic robot which can understand the emotion behind the human actions and inference the scenarios. Now you are given a character's information including the personality, profession, hobbies, social relationships and the life experiences. You are also given a video recording the person's behaviours and the dialogue the person makes in the scenario.  
+Your job is: add scenraio description based on the character informationm, the video content and the character's dialogue.
+
+Example:
+character:
+    Personality: Strict to herself, high career aspiration.
+    Profession: Doctor
+    Hobbies: Hiking
+    Life Experiences:
+    -Lost mother at the age of 8
+    -Father very strict, pushed Emily to success
+    -Lonely during childhood, spent most of her time reading
+input_action: "<char0> [Walktowards] <chair> (1), <char0> [Sit] <chair> (1)."
+Answer: The person encountered a challenging case in hospital and, upon returning home, deeply contemplated the issue.
+
+Notice:
+1. Pleace give your answer directly without any explanation.
+
+Now the video Input is attached. The chacter information is {character_info}. The dialogue made by the person in the scenario is {dialogue}. Your answer is : 
