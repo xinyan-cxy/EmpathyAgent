@@ -42,7 +42,19 @@ We also develop a **systematic evaluation framework** based on the human empathy
 
 ## 🚀 Quick Start
 
-For inference and evaluation, please specify $GPTAPI and $BASEURL:
+To get started with the project, first install the required dependencies by running:
+
+```
+pip install -r requirements.txt
+```
+
+Download the [action video](https://huggingface.co/datasets/EmpathaticEmbodiedAI/EmpathyRobot/blob/main/action_video.zip) and move it to `./data`. Then unzip the action video:
+
+```
+unzip data/action_video.zip -d data/
+```
+
+For inference and evaluation,  please specify $GPTAPI and $BASEURL:
 
 ```bash
 export OPENAI_API_KEY="$GPTAPI"
@@ -101,8 +113,6 @@ Reference-free benchmarking results for the three key challenges:
 | *Legality*                        | -                          | -                          | -                       | -                       | 9.97                   | 9.46                   |
 | *Adaptability*                    | -                          | -                          | 4.50                    | 3.49                    | 6.19                   | 5.31                   |
 | ***Overall Average***             | **7.79**                   | 7.10                       | **5.35**                | 4.29                    | **7.43**               | 6.87                   |
-
-## 
 
 
 

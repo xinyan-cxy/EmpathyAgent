@@ -1,5 +1,6 @@
 import json
 from typing import Dict, List, Any, Optional
+import csv
 
 class EmpathyScorer:
     def __init__(self, result_path: str = "./results/gpt-4o_scenario_gt_l2.json", level: int = 2):
@@ -51,10 +52,16 @@ class EmpathyScorer:
     def calculate_averages(self) -> None:
         self.averages = {key: sum(value) / len(value) for key, value in self.scores.items() if value}
         self.overall_average = sum(self.averages.values()) / len(self.averages) if self.averages else 0
-    
-    def print_results(self) -> None:
-        print("averages:", {key: f"{avg:.2f}" for key, avg in self.averages.items()})
-        print(f"overall_average: {self.overall_average:.2f}")
+        
+    def save_results(self, filename: str) -> None:
+        with open(filename, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Metric", "Score"])
+            for key, avg in self.averages.items():
+                writer.writerow([key, round(avg, 2)])
+                print(f"{key}: {round(avg, 2)}")
+            writer.writerow(["overall_average", round(self.overall_average, 2)])
+            print(f"overall_average: {round(self.overall_average, 2)}")
     
     def get_results(self) -> Dict[str, Any]:
         return {

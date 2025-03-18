@@ -46,10 +46,10 @@ class Overlap:
                     response = self.response_dict[f'{idx}']
                     response_subgoals = self.find_subgoals_nl(response)
                     accuracy = self.cal_acc(response_subgoals, gt_subgoals)
-                    print(accuracy)
+                    # print(accuracy)
                     total_accuracy += accuracy
         else:
-            for idx, test_data_item in tqdm(enumerate(self.test_data)):
+            for idx, test_data_item in tqdm(enumerate(self.test_data), total=len(self.test_data)):
                 if test_data_item["rank"][0] == 1:
                     gt = test_data_item["empathy_goal"]["0"]
                 else: 
@@ -59,11 +59,12 @@ class Overlap:
                     response = self.response_dict[f'{idx}']
                     response_subgoals = self.find_subgoals(response)
                     accuracy = self.cal_acc(response_subgoals, gt_subgoals)
-                    print(accuracy)
+                    # print(accuracy)
                     total_accuracy += accuracy
                 
         average_accuracy = total_accuracy / num if num > 0 else 0.0
         print(f"Average Overlapping Accuracy: {average_accuracy}")
+        return average_accuracy
         
 class LCS:
     def __init__(self, mode = ""):    
@@ -82,7 +83,7 @@ class LCS:
         for item in first_part.split(','):
             new_item = "_".join(item.strip().split(' '))
             subgoals.append(new_item)
-        print(subgoals)
+        # print(subgoals)
         return subgoals
 
     def lcs_length(self, X, Y):
@@ -144,6 +145,7 @@ class LCS:
                 
         average_similarity = total_similarity / num if num > 0 else 0.0
         print(f"Average LCS Similarity: {average_similarity}")
+        return average_similarity
         
 class TF_IDF:
     def __init__(self, mode = ""):    
@@ -209,6 +211,7 @@ class TF_IDF:
                 
         average_similarity = total_similarity / num if num > 0 else 0.0
         print(f"Average TF_IDF Similarity: {average_similarity}")
+        return average_similarity
 
 
 if __name__ == "__main__":

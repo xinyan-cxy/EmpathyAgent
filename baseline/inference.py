@@ -8,11 +8,11 @@ from pathlib import Path
 import sys   
 from gpt import GPT
 import argparse
-from .overlap import Overlap, TF_IDF, LCS
-from .NLG_metric import BERTScore
-from .reference_free_metrics.api_eval import EmpathyEvaluator
-from .reference_free_metrics.legality import LegalityChecker
-from .reference_free_metrics.scorer import EmpathyScorer
+from overlap import Overlap, TF_IDF, LCS
+from NLG_metric import BERTScore
+from reference_free_metrics.api_eval import EmpathyEvaluator
+from reference_free_metrics.legality import LegalityChecker
+from reference_free_metrics.scorer import EmpathyScorer
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -53,11 +53,11 @@ def load_existing_indices(csv_file_path):
 
 def inference(model, task, model_name = "", empathy_scenario_data_path = "", character_data_path = "", video_path = "", script_path = ""):
     response_list = []
-    empathy_scenario_data = json.load(open(empathy_scenario_data_path, 'r', encoding='utf-8')) 
+    empathy_scenario_data = json.load(open(empathy_scenario_data_path, 'r', encoding='latin-1')) 
     character_data = json.load(open(character_data_path,'r'))
     
     os.makedirs(os.path.join("output", task), exist_ok=True)
-    csv_file_path = os.path.join("output", task, f"{model_name}.csv")
+    csv_file_path = os.path.join("output", task, f"{model_name}_inference.csv")
     existing_indices = load_existing_indices(csv_file_path)
     
     if task == "scenario_understanding":
@@ -81,9 +81,8 @@ def inference(model, task, model_name = "", empathy_scenario_data_path = "", cha
             if video_path:
                 video_or_script_input = os.path.join(video_path, f"{action_id}.mp4")
             else:
-                video_or_script_input = os.path.join(script_path, f"{action_id}/script/0")
+                video_or_script_input = os.path.join(script_path, f"{action_id}")
             character_info = character_data[str(character_id)]
-            print(video_or_script_input)
             input_prompt = prompt.format(character_info = character_info, dialogue = dialogue)
             try:
                 response = model.generate(video_or_script_input, input_prompt)
@@ -91,7 +90,7 @@ def inference(model, task, model_name = "", empathy_scenario_data_path = "", cha
                 writer.writerow([idx, response])  
             except Exception as e:
                 if 'Quota exceeded' in str(e):
-                    print("Man, what can I say? I'm out of quota. Exiting now.")
+                    print("Out of quota. Exiting now.")
                     raise e  
                 else:
                     raise e   
@@ -115,7 +114,7 @@ if __name__ == "__main__":
         sys.exit(1)
         
     # evaluation
-    csv_file = f"./output/{args.task}/{args.model_name}.csv"
+    csv_file = f"./output/{args.task}/{args.model_name}_inference.csv"
     response_dict = {}
     with open(csv_file, 'r', newline='', encoding='latin-1') as file:
         reader = csv.DictReader(file)
@@ -127,7 +126,8 @@ if __name__ == "__main__":
                 
     if args.task == "empathetic_action":
         if args.reference_free_eval:
-            reference_free_metric_output_file = f"../output/{args.task}/reference_free_metrics_{args.model_name}.json"
+            os.makedirs(f"output/{args.task}/cache", exist_ok=True)
+            reference_free_metric_output_file = f"output/{args.task}/cache/reference_free_metrics_{args.model_name}.json"
             evaluator = EmpathyEvaluator(test_json_file=args.test_file, level=3)
             evaluator.evaluate(csv_file=csv_file, output_file = reference_free_metric_output_file)
             # legality
@@ -137,31 +137,53 @@ if __name__ == "__main__":
             )
             checker.process(verbose=True)
             # print score
-            scorer = EmpathyScorer(result_path=f"../output/{args.task}/reference_free_metrics_{args.model_name}_legality.json", level=3)
+            scorer = EmpathyScorer(result_path=f"output/{args.task}/cache/reference_free_metrics_{args.model_name}_legality.json", level=3)
             results = scorer.run()
+            print("\n","=" * 50)
             print("Results of reference free metrics:")
-            scorer.print_results()
-            
+            scorer.save_results(filename=f"output/{args.task}/{args.model_name}reference_free_score.csv")
+        
+        print("\n","=" * 50)
         print("Results of reference based metrics:")
         overlap = Overlap()
-        overlap.score(response_dict, args.test_file)
+        overlap_score = overlap.score(response_dict, args.test_file)
         lcs = LCS()
-        lcs.score(response_dict, args.test_file)
+        lcs_score = lcs.score(response_dict, args.test_file)
         tf_idf = TF_IDF()
-        tf_idf.score(response_dict, args.test_file)
+        tf_idf_score = tf_idf.score(response_dict, args.test_file)
+        
+        results = [
+            ["Metric", "Score"],
+            ["Overlap", overlap_score],
+            ["LCS", lcs_score],
+            ["TF-IDF", tf_idf_score]
+        ]
+        with open(f"output/{args.task}/{args.model_name}_reference_based_score.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerows(results)
         
     elif args.task == "empathetic_planning" or args.task == "scenario_understanding":
         if args.reference_free_eval:
-            reference_free_metric_output_file = f"../output/{args.task}/reference_free_metrics_{args.model_name}.csv"
+            os.makedirs(f"output/{args.task}/cache", exist_ok=True)
+            reference_free_metric_output_file = f"output/{args.task}/cache/reference_free_metrics_{args.model_name}.csv"
             evaluator = EmpathyEvaluator(test_json_file=args.test_file, level = 2 if args.task == "empathetic_planning" else 1)
             evaluator.evaluate(csv_file=csv_file, output_file=reference_free_metric_output_file)
             # print score
             scorer = EmpathyScorer(result_path=reference_free_metric_output_file, level = 2 if args.task == "empathetic_planning" else 1)
             results = scorer.run()
+            print("\n","=" * 50)
             print("Results of reference free metrics:")
-            scorer.print_results()
-            
+            scorer.save_results(filename=f"output/{args.task}/{args.model_name}reference_free_score.csv")
+        
+        print("\n","=" * 50)
         print("Results of reference based metrics:")
         bert_score = BERTScore(model_dir = "google-bert/bert-base-uncased")
-        bert_score.score(response_dict, args.test_file, test_level=args.task)
+        score = bert_score.score(response_dict, args.test_file, test_level=args.task)
 
+        results = [
+            ["Metric", "Score"],
+            ["Bert_score", score]
+        ]
+        with open(f"output/{args.task}/{args.model_name}_reference_based_score.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerows(results)

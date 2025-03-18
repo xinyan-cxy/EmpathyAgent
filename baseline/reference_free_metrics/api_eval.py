@@ -6,7 +6,7 @@ import re
 import time
 from tqdm import tqdm
 import csv
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class EmpathyEvaluator:
     def __init__(self, test_json_file, level=2):
@@ -45,8 +45,8 @@ Robot response: {response}
             self.metrics = ["adaptability", "association", "coherence", "emotion_reg", "emotional_com_l23", "helpfulness", "individual"]
             
         # Load datasets
-        self.character_data = json.load(open("../../dataset/character.json",'r'))
-        self.action_data = json.load(open("../../dataset/action_list.json",'r'))
+        self.character_data = json.load(open("../dataset/character.json",'r'))
+        self.action_data = json.load(open("../dataset/action_list.json",'r'))
         
         with open(self.test_json_file, 'r', encoding="latin1") as f:
             self.test_data = json.load(f)
@@ -89,7 +89,7 @@ Robot response: {response}
 
             result_item = {}
             for metric in self.metrics:
-                with open(f"../metrics/{metric}.txt", "r", encoding="utf-8") as file:
+                with open(f"reference_free_metrics/metrics/{metric}.txt", "r", encoding="utf-8") as file:
                     prompt_metric = file.read().strip()
 
                 if self.LEVEL == 1:
@@ -130,6 +130,7 @@ Robot response: {response}
             result_dict = self.load_results(output_file)  # Load existing results
             result_dict[f"{idx}"] = result_item
             self.save_results(result_dict, output_file)  # Save results after processing
+            # print(f"Processed index {idx}")
 
     def load_responses(self, csv_file):
         response_dict = {}
@@ -144,18 +145,17 @@ Robot response: {response}
 
     def evaluate(self, csv_file, output_file, max_workers=10):
         response_dict = self.load_responses(csv_file)
-        
-        # Use ProcessPoolExecutor for parallel processing
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:  
             futures = {
                 executor.submit(self.process_index, idx, response_dict, output_file): idx 
-                for idx in range(1, len(self.test_data) + 1)
+                for idx in range(len(self.test_data))
             }
-            
+
             for future in tqdm(as_completed(futures)):
                 idx = futures[future]
                 try:
-                    future.result()  # Ensure any exceptions are raised
+                    future.result()  
                 except Exception as e:
                     print(f"Error processing index {idx}: {e}")
 

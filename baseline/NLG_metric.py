@@ -1,7 +1,6 @@
 import json
 import csv
 from tqdm import tqdm
-import bert_score
 from bert_score import score as bert_score_func
 from transformers import AutoTokenizer
         
@@ -16,7 +15,7 @@ class BERTScore:
         
         truncated_response = tokenizer.decode(response_tokens['input_ids'][0], skip_special_tokens=True)
         truncated_gt = tokenizer.decode(gt_tokens['input_ids'][0], skip_special_tokens=True)
-        print(response, "\n", truncated_response)
+        # print(response, "\n", truncated_response)
     
         P, R, F1 = bert_score_func([truncated_response], [truncated_gt], lang="en", verbose=False, model_type=self.model_dir, num_layers=12)
         return F1.mean().item() 
@@ -32,7 +31,7 @@ class BERTScore:
         for idx, test_data_item in tqdm(enumerate(self.test_data), total=len(self.test_data)):
             if test_level == "scenario_understanding":
                 gt = test_data_item["scenario"]
-            elif test_level == "empathetic_panning":
+            elif test_level == "empathetic_planning":
                 if test_data_item["rank"][0]==1:
                     gt = test_data_item["high_level_plan"]["0"]
                 else:
@@ -43,13 +42,14 @@ class BERTScore:
                 
             if self.response_dict.get(f'{idx}'):
                 response = self.response_dict[f'{idx}']
-                print(response, "\n", gt)
+                # print(response, "\n", gt)
                 similarity = self.cal_similarity(response, gt, model_dir=self.model_dir)
-                print(f"Similarity for index {idx}: {similarity}")
+                # print(f"Similarity for index {idx}: {similarity}")
                 total_similarity += similarity
                 
         average_similarity = total_similarity / num if num > 0 else 0.0
         print(f"Average BERTScore: {average_similarity}")
+        return average_similarity
         
 
 if __name__ == "__main__":
